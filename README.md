@@ -52,11 +52,7 @@ python -I tests/p1_smoke_tests.py
 python -I tests/cli_smoke_tests.py
 ```
 
-Each script ends with its own `*_PASS` line. All test data are fabricated at run time and are never evidence. The optional figure test needs `matplotlib==3.10.7` and the Liberation fonts, and it reports `FIGURE_SMOKE_SKIP` if they are missing:
-
-```bash
-python -I tests/figure_smoke_tests.py
-```
+Each script ends with its own `*_PASS` line. Tests use fabricated data only and do not download CARE-PD files.
 
 ## Running on the real files
 
@@ -86,16 +82,10 @@ python -I scripts/care_pd/run_p1.py --data-dir /path/to/care_pd --out-dir /path/
 - **Entry points.** `run_p0.py`, `run_p1.py`, `schema_check.py` and `fetch_canonical.py` are portable rewrites of the original scripts. They have been tested on fabricated pickles and a stubbed network only. **They have not been run on the real CARE-PD files in this layout.**
 - **Reproducing a number.** Expect exact agreement only with the same library versions and thread settings, and treat any difference as something to investigate.
 
-## Optional figures
-
-The two scripts in `scripts/figures/` draw vector figures from `p0.json` and `p1_strong_models.json`. They cannot run from a fresh clone without those files, because this repository ships no results. They need matplotlib and the Liberation fonts.
-
-```bash
-python -I scripts/figures/generate_workflow_figure.py --p0-json /path/to/results/p0.json --p1-json /path/to/results/p1_strong_models.json --out-dir /path/to/figures
-python -I scripts/figures/generate_results_figure.py --p0-json /path/to/results/p0.json --p1-json /path/to/results/p1_strong_models.json --out-dir /path/to/figures
-```
-
 ## Repository layout
+
+Only experiment code, the CARE-PD data-integrity gate, relevant synthetic tests and reproducibility documentation are maintained here. Manuscript figure-generation and layout utilities are excluded.
+
 
 ```
 scripts/care_pd/common.py           pins, schema reading, fail-closed pickle reader
@@ -105,14 +95,13 @@ scripts/care_pd/run_p0.py           P0 command-line entry point
 scripts/care_pd/run_p1.py           P1 command-line entry point
 scripts/care_pd/schema_check.py     pre-metric checks, aggregate output only
 scripts/care_pd/fetch_canonical.py  optional download; requires an explicit flag
-scripts/figures/                    optional figure scripts
 tests/                              synthetic tests; no real data
 docs/protocol.md                    method, thresholds and verdict rules
 ```
 
 ## Tested environment
 
-Python 3.11.15, NumPy 1.26.4, SciPy 1.16.0, scikit-learn 1.6.1 and, for figures only, matplotlib 3.10.7. `run_p1.py` stops on any other NumPy, SciPy or scikit-learn version. `run_p0.py` records its versions and does not enforce them. GitHub Actions runs the synthetic tests on Python 3.11 with the versions pinned in `requirements.txt`; it downloads no dataset.
+Python 3.11.15, NumPy 1.26.4, SciPy 1.16.0 and scikit-learn 1.6.1. `run_p1.py` stops on any other NumPy, SciPy or scikit-learn version. `run_p0.py` records its versions and does not enforce them. GitHub Actions runs the synthetic tests on Python 3.11 with the versions pinned in `requirements.txt`; it downloads no dataset.
 
 ## Limitations
 
