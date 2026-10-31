@@ -1,0 +1,73 @@
+# Data, results and generated output never belong in this repository.
+data/
+datasets/
+raw/
+results/
+outputs/
+figures/
+!scripts/figures/
+logs/
+*.local.json
+*.local.tsv
+
+# Dataset, array and model formats
+*.pkl
+*.pickle
+*.joblib
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.parquet
+*.mat
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+
+# Archives, documents and images
+*.zip
+*.tar
+*.gz
+*.tgz
+*.7z
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.tex
+*.bib
+*.part
+
+# Result files. This repository is code only.
+*.json
+
+# Notebooks can embed data in their outputs
+*.ipynb
+.ipynb_checkpoints/
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*token*
+*credential*
+*secret*
+
+# Python and tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using this metadata. This citation covers the code only. If you use CARE-PD, its terms separately require citing the database and the original cohort papers."
+type: software
+title: "CARE-PD gait speed controls"
+abstract: "Speed-only baselines and source-only cross-cohort evaluation code for clinician-rated gait severity in CARE-PD. No data included."
+authors:
+  - family-names: "Amini"
+    given-names: "Ali"
+repository-code: "https://github.com/AliAmini93/care-pd-gait-speed-controls"
+license: MIT
+keywords:
+  - gait-analysis
+  - machine-learning
+  - cross-validation
+  - computer-vision
+  - reproducible-research

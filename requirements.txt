@@ -1,0 +1,7 @@
+# Versions recorded for the original runs, with Python 3.11.15. run_p1.py stops on any other version of these three.
+numpy==1.26.4
+scipy==1.16.0
+scikit-learn==1.6.1
+
+# Optional, for scripts/figures/ and tests/figure_smoke_tests.py only. These also need the Liberation fonts.
+# matplotlib==3.10.7
