@@ -5,7 +5,6 @@ raw/
 results/
 outputs/
 figures/
-!scripts/figures/
 logs/
 *.local.json
 *.local.tsv
