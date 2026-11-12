@@ -3,3 +3,6 @@ numpy==1.26.4
 scipy==1.16.0
 scikit-learn==1.6.1
 
+# Sequence and graph-temporal kernels. CPU builds support fabricated tests;
+# historical real-data sequence/graph runs used the 2.9.1+cu128 build.
+torch==2.9.1

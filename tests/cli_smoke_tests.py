@@ -58,7 +58,7 @@ def pin_files(data_dir, objs):
 
 
 def cli(script, *args):
-    return subprocess.run([sys.executable, "-I", str(SCRIPTS / script), *args], capture_output=True, text=True, cwd=REPO)
+    return subprocess.run([sys.executable, "-I", "-B", str(SCRIPTS / script), *args], capture_output=True, text=True, cwd=REPO)
 
 
 def test_fresh_checkout_commands():

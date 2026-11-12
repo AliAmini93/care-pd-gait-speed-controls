@@ -1,6 +1,6 @@
 # CARE-PD gait speed controls
 
-Code for measuring what hand-built pose features add to a one-number walking-speed baseline when gait-severity labels are predicted across CARE-PD cohorts.
+Code for matched speed controls, diagnostic comparisons, rating-unit sensitivity, within-cohort evaluation, learned temporal representations and residual corrections in CARE-PD gait grading.
 
 It compares a one-number speed proxy with pose and kinematic summaries under leave-one-cohort-out evaluation. Both arms get the same model selection, which uses source cohorts only, and uncertainty comes from a paired bootstrap over people.
 
@@ -47,9 +47,7 @@ Use any Python 3.11 environment. Run from the repository root.
 pip install -r requirements.txt
 
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
-python -I tests/p0_smoke_tests.py
-python -I tests/p1_smoke_tests.py
-python -I tests/cli_smoke_tests.py
+python -I -B tests/run_all.py
 ```
 
 Each script ends with its own `*_PASS` line. Tests use fabricated data only and do not download CARE-PD files.
@@ -82,9 +80,20 @@ python -I scripts/care_pd/run_p1.py --data-dir /path/to/care_pd --out-dir /path/
 - **Entry points.** `run_p0.py`, `run_p1.py`, `schema_check.py` and `fetch_canonical.py` are portable rewrites of the original scripts. They have been tested on fabricated pickles and a stubbed network only. **They have not been run on the real CARE-PD files in this layout.**
 - **Reproducing a number.** Expect exact agreement only with the same library versions and thread settings, and treat any difference as something to investigate.
 
+## Follow-up analyses
+
+After P0 and P1, use `run_followup.py` with explicit `--data-dir` and `--out-dir` paths outside the checkout. The families are `r1c`, `r8a`, `r8b`, `r8c`, `r8d`, `representation`, `abcd`, and the separate development commands `abcd_a` through `abcd_d`. Run `r8d` before `representation`. Both learned-model CLI families require CUDA; their numerical kernels have fabricated CPU tests. Every analysis writes local aggregates only.
+
+```bash
+python -I -B scripts/care_pd/run_followup.py --help
+python -I -B scripts/care_pd/run_followup.py r1c --data-dir /path/to/care_pd --out-dir /path/to/results
+```
+
+See [the complete follow-up contract](docs/extended_protocol.md) before running. It documents the preserved oracle/transductive labels, the unscored environmental candidate, the non-nested shrinkage limitation, and the absence of public figure generators.
+
 ## Repository layout
 
-Only experiment code, the CARE-PD data-integrity gate, relevant synthetic tests and reproducibility documentation are maintained here. Manuscript figure-generation and layout utilities are excluded.
+The original P0/P1 implementation is preserved. Portable follow-up kernels, an explicit input/output wrapper and synthetic tests extend it. [docs/extended_protocol.md](docs/extended_protocol.md) gives coverage, expected ordering, upstream contracts and verification limits. Manuscript figure-generation and layout utilities are excluded; none of the five publication figures has a public regeneration entry point here.
 
 
 ```
@@ -101,14 +110,14 @@ docs/protocol.md                    method, thresholds and verdict rules
 
 ## Tested environment
 
-Python 3.11.15, NumPy 1.26.4, SciPy 1.16.0 and scikit-learn 1.6.1. `run_p1.py` stops on any other NumPy, SciPy or scikit-learn version. `run_p0.py` records its versions and does not enforce them. GitHub Actions runs the synthetic tests on Python 3.11 with the versions pinned in `requirements.txt`; it downloads no dataset.
+Python 3.11.15, NumPy 1.26.4, SciPy 1.16.0, scikit-learn 1.6.1 and torch 2.9.1+cu128. CUDA was unavailable during portable-layout verification; GPU checks and real-data equality remain unverified. `run_p1.py` stops on any other NumPy, SciPy or scikit-learn version. `run_p0.py` records its versions and does not enforce them. GitHub Actions runs the synthetic tests on Python 3.11 with the versions pinned in `requirements.txt`; it downloads no dataset.
 
 ## Limitations
 
 - **Four cohorts.** Intervals cover sampling of people within these cohorts. They do not cover refits or unseen sites.
 - **Labels.** Gait items that may underlie these labels (MDS-UPDRS 3.10, and item 29 of the 1987 UPDRS) mention speed, so some agreement between speed and label is expected by construction. The item behind each cohort's labels is not settled, and the integer labels are pooled as released.
 - **Speed proxy.** Units are those of the files and are not verified as metres. The proxy divides a smoothed path length by total walk time, which introduces a bias tied to walk length. It was kept as specified.
-- **Scope.** The inputs are hand-built per-walk summaries. No trained encoder or temporal model is run, so nothing here applies to learned representations.
+- **Scope.** The extended code includes sequence, graph and residual kernels. CPU fabricated tests exercise the learned kernels, while CUDA CLI scoring remains untested on the verification host. No real-data run of the new portable layout has been performed. Follow-ups are exploratory, with unscored and non-nested branches explicitly retained.
 - **Untrusted pickles.** The dataset files are pickles. They are read after an opcode scan through a restricted unpickler, which reduces the risk but does not make hostile pickles safe. Use the pinned files, keep `python -I`, and do not run scripts from inside the data folder.
 
 ## Licence and citation

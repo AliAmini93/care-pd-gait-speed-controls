@@ -140,3 +140,7 @@ Everything else is exploratory and unadjusted for multiplicity:
 ## Output privacy
 
 Result files hold aggregates only. Subject keys become anonymous integers in memory, and no subject identifier, walk identifier, prediction or per-walk value is written. The tests assert this on fabricated data.
+
+## Follow-up package
+
+The original P0/P1 protocol above is unchanged. The separately packaged exploratory analyses and their explicit upstream contracts are documented in [extended_protocol.md](extended_protocol.md).
