@@ -14,6 +14,8 @@ Run P0 and P1 first, using `run_p0.py` and `run_p1.py`. Then use
 both directories are outside this code checkout. The output is `OUTPUT/FAMILY.json`.
 The command never downloads anything. Each aggregate must be generated locally
 from separately obtained data; there are no bundled upstream result files.
+Data-provenance and frozen-encoder probe commands use a separate entry point,
+`run_provenance.py`, documented in [provenance_protocol.md](provenance_protocol.md).
 
 | Family | Computation | Required upstream aggregates | Device |
 |---|---|---|---|
@@ -130,6 +132,9 @@ source publications and documentation, not a computational harmonization proof.
 The published-encoder record is inert: ACTOR and TEMOS remain blocked and no
 weights are fetched. The broader input-provenance exclusions also include a
 virtual-camera choice for MotionAGFormer and unestablished checkpoint/input
-conventions for MotionCLIP. No paired pretrained-encoder accuracy claim is made.
+conventions for MotionCLIP. The only pretrained-encoder comparison is the separate
+frozen MoMask probe (`run_provenance.py encoder-probe`), whose source-only scope and two
+disclosed exceptions are documented in [provenance_protocol.md](provenance_protocol.md); no
+other pretrained encoder is evaluated.
 
 Historical development labels are not emitted by the portable ABCD output. Computed decisions, controls, contrasts and never-scored outputs retain their frozen definitions.

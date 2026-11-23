@@ -91,6 +91,17 @@ python -I -B scripts/care_pd/run_followup.py r1c --data-dir /path/to/care_pd --o
 
 See [the complete follow-up contract](docs/extended_protocol.md) before running. It documents the preserved oracle/transductive labels, the unscored environmental candidate, the non-nested shrinkage limitation, and the absence of public figure generators.
 
+## Data provenance and frozen-encoder probe
+
+`run_provenance.py` ports four further exploratory families: record-level comparisons of the publishers' original annotated files with the canonical release (no model fitted), a speed-source sensitivity of the P1 contrast using the original root trajectories, a label-free pre-check of the benchmark's encoder inputs, and a source-only probe of the benchmark's frozen MoMask encoder against a speed scalar. Its two fetch commands download pinned files only with `--accept-care-pd-terms`. The encoder modules need `einops`. The four `scripts/care_pd/vendor_momask_*.py` files are third-party MIT code, listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). No checkpoint, normalization file or data file is included, and none of these commands has been run on the real files in this layout.
+
+```bash
+python -I -B scripts/care_pd/run_provenance.py --help
+python -I -B scripts/care_pd/run_provenance.py encoder-precheck --data-dir /path/to/care_pd --out-dir /path/to/results
+```
+
+[docs/provenance_protocol.md](docs/provenance_protocol.md) gives the inputs, order, protocol classes and limits. [docs/q2_port_exceptions.tsv](docs/q2_port_exceptions.tsv) lists every deviation from the frozen source.
+
 ## Repository layout
 
 The original P0/P1 implementation is preserved. Portable follow-up kernels, an explicit input/output wrapper and synthetic tests extend it. [docs/extended_protocol.md](docs/extended_protocol.md) gives coverage, expected ordering, upstream contracts and verification limits. Manuscript figure-generation and layout utilities are excluded; none of the five publication figures has a public regeneration entry point here.

@@ -10,7 +10,8 @@ SUITES=('p0_smoke_tests','p1_smoke_tests','cli_smoke_tests','r1c_synthetic_tests
         'r8_a_occasion_grain_synthetic_tests','r8_b_within_person_synthetic_tests',
         'r8_c_insite_ceiling_synthetic_tests','r8_d_sequence_loco_synthetic_tests',
         'representation_synthetic_tests','abcd_worlds_tests','abcd_stage_tests',
-        'abcd_final_tests','release_contract_tests')
+        'abcd_final_tests','release_contract_tests','root_core_tests','root_fetch_tests','root_parity_tests',
+        'root_speed_sensitivity_tests','encoder_inputs_tests','encoder_precheck_tests','encoder_probe_tests')
 
 
 def main():
