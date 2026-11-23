@@ -169,7 +169,8 @@ def fab_walk(rng, fps, dur_s, v, trunk, heading, knee=0.6, hip=0.4, cadence=1.8)
 
 def fab_objs(seed, world, walks=3, dur=(2.2, 3.6), trunk_step=0.25):
     """Nine persons per cohort covering every (speed class, rotation class) pair once, plus one grade-3 person and
-    one unlabelled walk per cohort. world 'null': grade = speed class; 'signal': grade from speed AND trunk class."""
+    one unlabelled walk per cohort. world 'null': grade = speed class; 'signal': grade from speed AND trunk class;
+    'signal_untied': grade mostly from trunk class with speed incremental, and no exactly tied rotation stratum."""
     rng = np.random.default_rng(seed)
     objs = {}
     for ci, name in enumerate(C.COHORTS):
@@ -178,6 +179,14 @@ def fab_objs(seed, world, walks=3, dur=(2.2, 3.6), trunk_step=0.25):
             if world == 'signal':
                 u = cv + r
                 grade = 0 if u <= 1 else 1 if u == 2 else 2
+                trunk_class = r
+            elif world == 'signal_untied':
+                # Same rotation/speed construction as 'signal', but no rotation class has a tied grade distribution:
+                # under class-balanced weights the rotation-only Bayes macro-F1 is 0.783 (no tie) instead of 0.444 or
+                # 0.556 depending only on how an exactly uniform stratum is broken; speed stays incremental (S 0.300,
+                # S+N 1.0). See docs/t40_fixture_analysis.md.
+                u = 2 * r + cv
+                grade = 0 if u <= 1 else 1 if u <= 4 else 2
                 trunk_class = r
             else:
                 grade = cv
@@ -713,7 +722,9 @@ def t39_null_world_gives_no_false_signal():
 
 @test
 def t40_known_incremental_rotation_signal_is_detected():
-    _, _, body = campaign('signal')
+    # 'signal_untied', not 'signal': in 'signal' one rotation stratum is an exact three-way grade tie, so N's score
+    # (4/9 or 5/9 per cohort) was set by floating-point tie-breaking, not by detection. Threshold and assertions unchanged.
+    _, _, body = campaign('signal_untied')
     n = body['arms']['N']['macro_f1']['M']['point']
     s = body['arms']['S']['macro_f1']['M']['point']
     sn = body['contrasts']['S_plus_N_minus_S']['walk_eval']['M']['point']
